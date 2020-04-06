@@ -4,15 +4,8 @@ import { Button, Table, Spinner } from "reactstrap";
 import "./Users.scss";
 
 function Users(props) {
-  const { history } = props;
-  const [users, setUsers] = useState([]);
-
-  useEffect(() => {
-    axios
-      .get("/api/users")
-      .then(({ data }) => setUsers(data))
-      .catch((err) => console.dir(err));
-  }, []);
+  const { history, handleUsers } = props;
+  const [users, setUsers] = handleUsers;
 
   const deleteUser = (id) => {
     axios
