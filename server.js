@@ -4,8 +4,12 @@ const server = express();
 server.use(express.json());
 server.use(cors());
 
-const users = [];
-let nextID = 1;
+const users = [
+  { id: 1, name: "Alice", bio: "Alice's bio" },
+  { id: 2, name: "Bob", bio: "Bob's bio" },
+  { id: 3, name: "Dave", bio: "Dave's bio" },
+];
+let nextID = users.length;
 
 server.get("/", (req, res) => {
   res.json({ api: "running..." });
