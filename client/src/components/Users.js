@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import axios from "../utils/axios";
 import { Button, Table, Spinner } from "reactstrap";
 import "./Users.scss";
