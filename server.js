@@ -9,7 +9,7 @@ const users = [
   { id: 2, name: "Bob", bio: "Bob's bio" },
   { id: 3, name: "Dave", bio: "Dave's bio" },
 ];
-let nextID = users.length;
+let nextID = users.length + 1;
 
 server.get("/", (req, res) => {
   res.json({ api: "running..." });
