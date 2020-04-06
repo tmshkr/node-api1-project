@@ -15,7 +15,14 @@ server.post("/api/users", (req, res) => {
       .status(400)
       .json({ errorMessage: "Please provide name and bio for the user." });
   }
-  users.push(user);
+  try {
+    users.push(user);
+  } catch {
+    res.status(500).json({
+      errorMessage: "There was an error while saving the user to the database",
+    });
+  }
+
   res.status(201).json(users);
 });
 
