@@ -12,7 +12,7 @@ server.get("/", (req, res) => {
 server.post("/api/users", (req, res) => {
   const user = req.body;
   if (!(user.name && user.bio)) {
-    res
+    return res
       .status(400)
       .json({ errorMessage: "Please provide name and bio for the user." });
   }
@@ -43,7 +43,7 @@ server.get("/api/users/:id", (req, res) => {
   try {
     const found = users.find((u) => u.id === Number(id));
     if (!found) {
-      res.status(404).json({
+      return res.status(404).json({
         message: "The user with the specified ID does not exist.",
       });
     }
@@ -73,7 +73,31 @@ server.delete("/api/users/:id", (req, res) => {
   }
 });
 
-server.patch("/api/users/:id", (req, res) => {});
+server.put("/api/users/:id", (req, res) => {
+  const { id } = req.params;
+  const user = req.body;
+  if (!(user.name && user.bio)) {
+    return res
+      .status(400)
+      .json({ errorMessage: "Please provide name and bio for the user." });
+  }
+  try {
+    const index = users.findIndex((u) => u.id === Number(id));
+    if (index === -1) {
+      return res.status(404).json({
+        message: "The user with the specified ID does not exist.",
+      });
+    }
+    delete user.id;
+    const updatedUser = { ...users[index], ...user };
+    users.splice(index, 1, updatedUser);
+    res.json(updatedUser);
+  } catch {
+    res.status(500).json({
+      errorMessage: "The user could not be modified.",
+    });
+  }
+});
 
 const port = 3000;
 server.listen(port, () => {
