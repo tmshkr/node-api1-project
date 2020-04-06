@@ -39,7 +39,20 @@ server.get("/api/users", (req, res) => {
 });
 
 server.get("/api/users/:id", (req, res) => {
-  console.log(req.params.id);
+  const { id } = req.params;
+  try {
+    const found = users.find((u) => u.id === Number(id));
+    if (!found) {
+      res.status(404).json({
+        message: "The user with the specified ID does not exist.",
+      });
+    }
+    res.json(found);
+  } catch {
+    res.status(500).json({
+      errorMessage: "The user information could not be retrieved.",
+    });
+  }
 });
 
 server.delete("/api/users/:id", (req, res) => {});
