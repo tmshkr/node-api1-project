@@ -55,7 +55,24 @@ server.get("/api/users/:id", (req, res) => {
   }
 });
 
-server.delete("/api/users/:id", (req, res) => {});
+server.delete("/api/users/:id", (req, res) => {
+  const { id } = req.params;
+  try {
+    const index = users.findIndex((u) => u.id === Number(id));
+    if (index === -1) {
+      res.status(404).json({
+        message: "The user with the specified ID does not exist.",
+      });
+    }
+    const deleted = users.splice(index, 1);
+    res.json(deleted[0]);
+  } catch {
+    res.status(500).json({
+      errorMessage: "The user could not be removed",
+    });
+  }
+});
+
 server.patch("/api/users/:id", (req, res) => {});
 
 const port = 3000;
