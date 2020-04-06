@@ -26,7 +26,16 @@ server.post("/api/users", (req, res) => {
   res.status(201).json(users);
 });
 
-server.get("/api/users", (req, res) => {});
+server.get("/api/users", (req, res) => {
+  try {
+    res.json(users);
+  } catch {
+    res.status(500).json({
+      errorMessage: "The users information could not be retrieved.",
+    });
+  }
+});
+
 server.get("/api/users/:id", (req, res) => {});
 server.delete("/api/users/:id", (req, res) => {});
 server.patch("/api/users/:id", (req, res) => {});
