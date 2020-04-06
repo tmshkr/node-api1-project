@@ -3,6 +3,7 @@ const server = express();
 server.use(express.json());
 
 const users = [];
+let nextID = 1;
 
 server.get("/", (req, res) => {
   res.json({ api: "running..." });
@@ -16,7 +17,8 @@ server.post("/api/users", (req, res) => {
       .json({ errorMessage: "Please provide name and bio for the user." });
   }
   try {
-    users.push(user);
+    delete user.id; // in case an id is included with the request
+    users.push({ id: nextID++, ...user });
   } catch {
     res.status(500).json({
       errorMessage: "There was an error while saving the user to the database",
@@ -36,7 +38,10 @@ server.get("/api/users", (req, res) => {
   }
 });
 
-server.get("/api/users/:id", (req, res) => {});
+server.get("/api/users/:id", (req, res) => {
+  console.log(req.params.id);
+});
+
 server.delete("/api/users/:id", (req, res) => {});
 server.patch("/api/users/:id", (req, res) => {});
 
