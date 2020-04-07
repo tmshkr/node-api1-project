@@ -66,7 +66,7 @@ server.delete("/api/users/:id", (req, res) => {
   try {
     const index = users.findIndex((u) => u.id === Number(id));
     if (index === -1) {
-      res.status(404).json({
+      return res.status(404).json({
         message: "The user with the specified ID does not exist.",
       });
     }
